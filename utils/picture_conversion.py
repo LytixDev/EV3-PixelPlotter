@@ -12,11 +12,11 @@ def read_image():
         for c2, pixel in enumerate(pixel_line):
             # is pixel darker than threshold?
             if int(pixel) < 140:
-                img[c1][c2] = 0
-                f.write(" 1 ")
+                img[c1][c2] = 0 # for picture
+                f.write(" 1 ") # for array
             else:
-                img[c1][c2] = 255
-                f.write(" 0 ")
+                img[c1][c2] = 255 # for picture
+                f.write(" 0 ")  # for array
         f.write("\n")
 
 
