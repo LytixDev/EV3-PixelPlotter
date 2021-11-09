@@ -28,6 +28,8 @@ class PixelPlotter:
         self.paper = Motor(Port.B)
         self.pen = Motor(Port.C)
 
+        self.arm_at_start = True
+
         self.print()
 
     
@@ -44,17 +46,32 @@ class PixelPlotter:
     # main method for printing
     def print(self):
         for print_line in self.image_array:
-            for pixel in print_line:
-                self.move_pen(pixel)
-                self.move_arm()
+            # if there is nothing to draw in a line, we skip it
+            if "1" in print_line:
+                # instead of always moving the arm back to it's start position
+                # when on a new line, we can instead start drawing from the end
+                # position of the arm, as long as we reverse the array to be drawn
+                if not self.arm_at_start:  # if arm at the end, reverse array
+                    print_line = print_line[::-1]
+                    SPEED_NEW_PIXEL = 25  # change direction of arm speed
+                else:
+                    SPEED_NEW_PIXEL = -25
+
+                for pixel in print_line:
+                    if pixel == 1:
+                        self.move_pen(pixel)
+                    self.move_arm()
+
+                # arm is now at the opposite side
+                self.arm_at_start = not self.arm_at_start
+            
             self.new_line()
             
     # moves pen up or down
     def move_pen(self, pixel):
-        if pixel == "1":
-            print("DOWN")
-            self.pen.run_target(SPEED_PEN, PEN_DOWN)
-            self.pen.run_target(SPEED_PEN, PEN_UP)
+        print("DOWN")
+        self.pen.run_target(SPEED_PEN, PEN_DOWN)
+        self.pen.run_target(SPEED_PEN, PEN_UP)
 
     # Moves arm for every pixel
     def move_arm(self):
@@ -62,7 +79,7 @@ class PixelPlotter:
 
     # moves paper down and arm back
     def new_line(self):
-        self.arm.run_angle(SPEED_NEW_LINE, ARM_NEW_LINE)
+        # self.arm.run_angle(SPEED_NEW_LINE, ARM_NEW_LINE)
         self.paper.run_angle(SPEED_PAPER, PAPER_NEW_LINE)
 
 
