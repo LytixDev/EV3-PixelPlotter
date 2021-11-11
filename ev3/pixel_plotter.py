@@ -11,8 +11,8 @@ SPEED_NEW_LINE = 50
 SPEED_PAPER = -100
 SPEED_PEN = 20
 # Angles
-PAPER_NEW_LINE = 1200 // PIXELS
-ARM_NEW_LINE = 430
+PAPER_NEW_LINE = 600 // PIXELS
+ARM_NEW_LINE = 400
 NEW_PIXEL = ARM_NEW_LINE // PIXELS
 # Relative angles
 PEN_DOWN = 0 # relative positional degree from 0 which is at top
@@ -45,6 +45,7 @@ class PixelPlotter:
 
     # main method for printing
     def print(self):
+        self.pen.run_target(SPEED_PEN, PEN_UP)
         for print_line in self.image_array:
             # if there is nothing to draw in a line, we skip it
             if "1" in print_line:
@@ -54,11 +55,12 @@ class PixelPlotter:
                 if not self.arm_at_start:  # if arm at the end, reverse array
                     print_line = print_line[::-1]
                     self.speed_new_pixel = 25  # change direction of arm speed
+                    # correct for jank
+
                 else:
                     self.speed_new_pixel = -25
-
                 for pixel in print_line:
-                    if pixel == 1:
+                    if pixel == "1":
                         self.move_pen(pixel)
                     self.move_arm()
 
