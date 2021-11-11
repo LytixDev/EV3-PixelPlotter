@@ -45,7 +45,8 @@ def main():
     WIN = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Paint")
     grid = init_grid(ROWS, COLS)
-
+    
+    drawing = True  # if false, it will draw white pixels i.e delete
     follow = False
     running = True
     clock = pygame.time.Clock()
@@ -56,16 +57,24 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            # if space is pressed reverse from drawing to ereasing
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    drawing = not drawing
+
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 col, row = get_pixel(pos)
-                grid[col][row] = 1
+                if drawing:
+                    grid[col][row] = 1
+                else:
+                    grid[col][row] = 0
 
             if follow:
                 x, y = pygame.mouse.get_pos()
                 x = x // 10
                 y = y // 10
-                # print(x, y)
+                print(x, y)
                 # to-do
                 # move the printers arm and paper to follow the mouse
                 # when the mouse is pressed, put the pen down, and vice versa
