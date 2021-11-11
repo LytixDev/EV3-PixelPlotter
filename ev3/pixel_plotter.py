@@ -29,7 +29,6 @@ class PixelPlotter:
         self.pen = Motor(Port.C)
 
         self.arm_at_start = True
-
         self.print()
 
     
@@ -86,6 +85,7 @@ class PixelPlotter:
          
 def main():
     PixelPlotter()
+
 
 if __name__ == "__main__":
     main()
