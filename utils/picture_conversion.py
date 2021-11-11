@@ -3,7 +3,7 @@ from PIL import Image
 
 def read_image():
     # read the image file
-    img = cv2.imread('input.png', 2)
+    img = cv2.imread('drawn_picture.png', 2)
     img = cv2.resize(img, (40, 40))
 
     f = open("../ev3/image_array.txt", "w+")

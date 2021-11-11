@@ -16,7 +16,7 @@ ARM_NEW_LINE = 430
 NEW_PIXEL = ARM_NEW_LINE // PIXELS
 # Relative angles
 PEN_DOWN = 0 # relative positional degree from 0 which is at top
-PEN_UP = -5 # relative positional degree
+PEN_UP = -10 # relative positional degree
 
 class PixelPlotter:
 
@@ -31,7 +31,8 @@ class PixelPlotter:
         self.arm_at_start = True
         self.print()
 
-    
+        self.speed_new_pixel = SPEED_NEW_PIXEL
+
     # reads the file and converts it to a python array
     def set_image_array(self):
         array = []
@@ -52,9 +53,9 @@ class PixelPlotter:
                 # position of the arm, as long as we reverse the array to be drawn
                 if not self.arm_at_start:  # if arm at the end, reverse array
                     print_line = print_line[::-1]
-                    SPEED_NEW_PIXEL = 25  # change direction of arm speed
+                    self.speed_new_pixel = 25  # change direction of arm speed
                 else:
-                    SPEED_NEW_PIXEL = -25
+                    self.speed_new_pixel = -25
 
                 for pixel in print_line:
                     if pixel == 1:
@@ -74,7 +75,7 @@ class PixelPlotter:
 
     # Moves arm for every pixel
     def move_arm(self):
-        self.arm.run_angle(SPEED_NEW_PIXEL, NEW_PIXEL)
+        self.arm.run_angle(self.speed_new_pixel, NEW_PIXEL)
 
     # moves paper down and arm back
     def new_line(self):
