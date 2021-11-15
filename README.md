@@ -7,11 +7,13 @@ We have made a robot that can paint a 40x40 image to a piece of paper. We have a
 
 <div align="center">
   Demo of robot:
-  to-do add gif timelapse of robot in action!
+</div>
+<div align="center">
+  <img src="https://github.com/LytixDev/EV3-PixelPlotter/blob/main/example-pp.gif" width="500">
 </div>
 <div align="center">
   Demo of paint program:
 </div>
 <div align="center">
-<img src="https://github.com/LytixDev/EV3-PixelPlotter/blob/main/paint.gif" width="500">
+  <img src="https://github.com/LytixDev/EV3-PixelPlotter/blob/main/paint.gif" width="500">
 </div>
