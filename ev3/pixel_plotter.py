@@ -6,7 +6,7 @@ import time
 
 PIXELS = 40
 # Speeds
-SPEED_NEW_PIXEL = -25
+SPEED_NEW_PIXEL = 25
 SPEED_NEW_LINE = 50
 SPEED_PAPER = -100
 SPEED_PEN = 20
@@ -15,7 +15,7 @@ PAPER_NEW_LINE = 600 // PIXELS
 ARM_NEW_LINE = 400
 NEW_PIXEL = ARM_NEW_LINE // PIXELS
 # Relative angles
-PEN_DOWN = 0 # relative positional degree from 0 which is at top
+PEN_DOWN = 3 # relative positional degree from 0 which is at top
 PEN_UP = -10 # relative positional degree
 
 class PixelPlotter:
@@ -54,11 +54,11 @@ class PixelPlotter:
                 # position of the arm, as long as we reverse the array to be drawn
                 if not self.arm_at_start:  # if arm at the end, reverse array
                     print_line = print_line[::-1]
-                    self.speed_new_pixel = 25  # change direction of arm speed
+                    self.speed_new_pixel = -25  # change direction of arm speed
                     # correct for jank
 
                 else:
-                    self.speed_new_pixel = -25
+                    self.speed_new_pixel = 25
                 for pixel in print_line:
                     if pixel == "1":
                         self.move_pen(pixel)
