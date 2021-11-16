@@ -29,7 +29,7 @@ class PixelPlotter:
         self.pen = Motor(Port.C)
 
         self.arm_at_start = True
-        self.println()
+        self.printPaper()
 
         self.speed_new_pixel = SPEED_NEW_PIXEL
 
@@ -44,7 +44,7 @@ class PixelPlotter:
         return array
 
     # main method for printing
-    def println(self):
+    def printPaper(self):
         self.pen.run_target(SPEED_PEN, PEN_UP)
         for print_line in self.image_array:
             # if there is nothing to draw in a line, we skip it
@@ -83,8 +83,6 @@ class PixelPlotter:
     def new_line(self):
         # self.arm.run_angle(SPEED_NEW_LINE, ARM_NEW_LINE)
         self.paper.run_angle(SPEED_PAPER, PAPER_NEW_LINE)
-
-
          
 def main():
     PixelPlotter()
