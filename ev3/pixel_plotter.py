@@ -28,10 +28,10 @@ class PixelPlotter:
         self.paper = Motor(Port.B)
         self.pen = Motor(Port.C)
 
+        self.speed_new_pixel = SPEED_NEW_PIXEL
+
         self.arm_at_start = True
         self.printPaper()
-
-        self.speed_new_pixel = SPEED_NEW_PIXEL
 
     # reads the file and converts it to a python array
     def set_image_array(self):
@@ -45,31 +45,30 @@ class PixelPlotter:
 
     # main method for printing
     def printPaper(self):
-        self.pen.run_target(SPEED_PEN, PEN_UP)
+        self.pen.run_target(SPEED_PEN, PEN_UP) # since the pen starts at the paper, move it up
         for print_line in self.image_array:
             # if there is nothing to draw in a line, we skip it
             if "1" in print_line:
-                # instead of always moving the arm back to it's start position
-                # when on a new line, we can instead start drawing from the end
-                # position of the arm, as long as we reverse the array to be drawn
+                ''' instead of always moving the arm back to it's start position
+                when on a new line, we can instead start drawing from the end
+                position of the arm, as long as we reverse the array to be drawn'''
                 if not self.arm_at_start:  # if arm at the end, reverse array
-                    print_line = print_line[::-1]
-                    self.speed_new_pixel = -25  # change direction of arm speed
-                    # correct for jank
+                    print_line = print_line[::-1] # reverse list
+                    self.speed_new_pixel = -25  # opposite direction when list is reversed
 
                 else:
-                    self.speed_new_pixel = 25
+                    self.speed_new_pixel = 25 # normal direction
                 for pixel in print_line:
-                    if pixel == "1":
-                        self.move_pen(pixel)
-                    self.move_arm()
+                    if pixel == "1": # check if current pixel is one
+                        self.move_pen(pixel) # draw pixel with pen
+                    self.move_arm() # move the arm for next pixel with current speed_per_pixel
 
                 # arm is now at the opposite side
                 self.arm_at_start = not self.arm_at_start
             
             self.new_line()
             
-    # moves pen up or down
+    # moves pen up or down when a 1 is to be written
     def move_pen(self, pixel):
         print("DOWN")
         self.pen.run_target(SPEED_PEN, PEN_DOWN)
@@ -79,9 +78,8 @@ class PixelPlotter:
     def move_arm(self):
         self.arm.run_angle(self.speed_new_pixel, NEW_PIXEL)
 
-    # moves paper down and arm back
+    # moves paper down when at the end of a line
     def new_line(self):
-        # self.arm.run_angle(SPEED_NEW_LINE, ARM_NEW_LINE)
         self.paper.run_angle(SPEED_PAPER, PAPER_NEW_LINE)
          
 def main():
